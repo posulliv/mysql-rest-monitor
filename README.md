@@ -77,7 +77,7 @@ bundle exec rackup
 
 # Hubot
 
-A simple hubot script is provided in the root directory showing how this 
+A simple hubot script is provided (`hubot.mysql.coffee`) in the root directory showing how this 
 service can be used from a hubot script.
 
 Some examples of some of the commands from the hubot script being run
