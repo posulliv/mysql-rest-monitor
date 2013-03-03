@@ -46,44 +46,35 @@ get = (path, params, cb) ->
     cb e, 500, "Client Error"
   req.end()
 
+simple_req = (path, msg) ->
+  get path, {}, (err, statusCode, body) ->
+    if statusCode == 200
+      msg.send body
+    else
+      msg.send "the god damn plane has crashed into the building"
+
 
 module.exports = (robot) ->
 
   robot.respond /mysql bad_queries ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
-    get "#{db}/bad_queries", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/bad_queries", msg
 
   robot.respond /mysql queries_tmp_tables ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
-    get "#{db}/queries_tmp_tables", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/queries_tmp_tables", msg
 
   robot.respond /mysql table_stats ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
     schema = msg.match[2]
     table = msg.match[3]
-    get "#{db}/table_stats/#{schema}/#{table}", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/table_stats/#{schema}/#{table}", msg
 
   robot.respond /mysql index_stats ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
     schema = msg.match[2]
     table = msg.match[3]
-    get "#{db}/table_stats/#{schema}/#{table}", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/index_stats/#{schema}/#{table}", msg
 
   robot.respond /mysql lock_user ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
@@ -105,27 +96,15 @@ module.exports = (robot) ->
 
   robot.respond /mysql trx_summary ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
-    get "#{db}/trx_summary", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/trx_summary", msg
 
   robot.respond /mysql active_trx ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
-    get "#{db}/active_trx", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/active_trx", msg
 
   robot.respond /mysql blocked_trx ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
-    get "#{db}/blocked_trx", {}, (err, statusCode, body) ->
-      if statusCode == 200
-        msg.send body
-      else
-        msg.send "the god damn plane has crashed into the building"
+    simple_req "#{db}/blocked_trx", msg
 
   robot.respond /mysql kill_idle_trx ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
