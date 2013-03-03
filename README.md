@@ -166,3 +166,10 @@ OR REPLACE ALGORITHM =  ... ition_description` ) , ? ,
 `_sql_range_partitions_ ... l_range_partitions_diff` .
 ...","execution_count":1,"tmp_tables_
 ```
+
+# TODO
+
+* more error checking.
+* restrict some operations to only be allowed to be performed on a slave
+* replication load average endpoint
+* backup / restore information & testing
