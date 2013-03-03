@@ -151,6 +151,18 @@ OR REPLACE ALGORITHM =  ... ition_description` ) , ? ,
 ...","execution_count":1,"tmp_tables_in_memory":8,"tmp_tables_on_disk":3},{"query":"SELECT
 `_sql_range_partitions_ ... l_range_partitions_diff` .
 ...","execution_count":1,"tmp_tables_
+
+Hubot> hubot mysql index_stats db1 common_schema numbers
+Hubot> { host: 'localhost',
+  port: '9292',
+  path: '/db1/index_stats/common_schema/numbers' }
+[{"index_name":"PRIMARY","rows_selected":6,"rows_inserted":0,"rows_updated":0,"rows_deleted":0}]
+Hubot> 
+
+Hubot> hubot mysql bad_queries hh
+Hubot> { host: 'localhost', port: '9292', path: '/hh/bad_queries' }
+the god damn plane has crashed into the building
+Hubot> 
 ```
 
 # TODO
