@@ -77,7 +77,7 @@ bundle exec rackup
 
 # Hubot
 
-A simple hubot script is provided in the root directory showing how this 
+A simple hubot script is provided (`hubot.mysql.coffee`) in the root directory showing how this 
 service can be used from a hubot script.
 
 Some examples of some of the commands from the hubot script being run
@@ -86,10 +86,8 @@ are shown below:
 ```
 Hubot> hubot mysql active_trx db1
 Hubot> { host: 'localhost', port: '9292', path: '/db1/active_trx' }
-[{"id":"4379","state":"RUNNING","started":"2013-03-03 17:42:49
--0500","query":null,"run_time":"578 s","wait_time":null,"idle_time":"498
-s"},{"id":"4378","state":"RUNNING","started":"2013-03-03 17:42:29
--0500","query":null,"run_time":"598 s","wait_time":null,"idle_time":"203
+[{"id":"4379","state":"RUNNING","started":"2013-03-03 17:42:49-0500","query":null,"run_time":"578 s","wait_time":null,"idle_time":"498
+s"},{"id":"4378","state":"RUNNING","started":"2013-03-03 17:42:29-0500","query":null,"run_time":"598 s","wait_time":null,"idle_time":"203
 s"}]
 Hubot>
  
@@ -107,26 +105,14 @@ Hubot>
 Hubot> hubot mysql bad_queries db1
 Hubot> { host: 'localhost', port: '9292', path: '/db1/bad_queries' }
 [{"query":"UPDATE `t1` SET `c2` = ? WHERE `c1` = ?
-","full_scan":"","execution_count":3,"total_exec_time":"00:01:42.1666","max_exec_time":"51.09
-s","avg_exec_time":"34.06 s"},{"query":"INSERT INTO `common_schema` .
-`help_content` VALUES (...)
-","full_scan":"","execution_count":138,"total_exec_time":"1.73
-s","max_exec_time":"1.12 s","avg_exec_time":"12.55 ms"},{"query":"SELECT
-`rows_fetched` , `fetch ... M ( `fsbi` . `COUNT_WRITE`
-...","full_scan":"*","execution_count":4,"total_exec_time":"1.47
-s","max_exec_time":"768.98 ms","avg_exec_time":"367.15
-ms"},{"query":"CALL `run` ( @ ? )
-","full_scan":"","execution_count":6,"total_exec_time":"1.05
-s","max_exec_time":"248.93 ms","avg_exec_time":"175.80
-ms"},{"query":"SELECT `count_tables` AS `tabl ... ation_schema` .
-`tables` .
-...","full_scan":"*","execution_count":1,"total_exec_time":"810.64
-ms","max_exec_time":"810.64 ms","avg_exec_time":"810.64
-ms"},{"query":"CREATE TABLE `t1` ( `c1` INTEGER , `c2` VARCHARACTER (?)
-) ","full_scan":"","execution_count":1,"total_exec_time":"655.27
-ms","max_exec_time":"655.27 ms","avg_exec_time":"655.27
-ms"},{"query":"SELECT `count_tables` AS `tabl ... ENGTH` ) ) AS
-`total_size`
+","full_scan":"","execution_count":3,"total_exec_time":"00:01:42.1666","max_exec_time":"51.09s","avg_exec_time":"34.06 s"},{"query":"INSERT INTO `common_schema` .
+`help_content` VALUES (...)","full_scan":"","execution_count":138,"total_exec_time":"1.73 s","max_exec_time":"1.12 s","avg_exec_time":"12.55 ms"},{"query":"SELECT `rows_fetched` , `fetch ... M ( `fsbi` . `COUNT_WRITE`
+...","full_scan":"*","execution_count":4,"total_exec_time":"1.47 s","max_exec_time":"768.98 ms","avg_exec_time":"367.15
+ms"},{"query":"CALL `run` ( @ ? )","full_scan":"","execution_count":6,"total_exec_time":"1.05 s","max_exec_time":"248.93 ms","avg_exec_time":"175.80
+ms"},{"query":"SELECT `count_tables` AS `tabl ... ation_schema` . `tables` ....","full_scan":"*","execution_count":1,"total_exec_time":"810.64
+ms","max_exec_time":"810.64 ms","avg_exec_time":"810.64 ms"},{"query":"CREATE TABLE `t1` ( `c1` INTEGER , `c2` VARCHARACTER (?)
+) ","full_scan":"","execution_count":1,"total_exec_time":"655.27 ms","max_exec_time":"655.27 ms","avg_exec_time":"655.27
+ms"},{"query":"SELECT `count_tables` AS `tabl ... ENGTH` ) ) AS `total_size`
 ...","full_scan":"*","execution_count":3,"total_exec_time":"630.96
 ms","max_exec_time":"518.33 ms","avg_exec_time":"210.32
 ms"},{"query":"CALL `common_schema` . `eval` (?)
@@ -169,6 +155,7 @@ OR REPLACE ALGORITHM =  ... ition_description` ) , ? ,
 
 # TODO
 
+* parse JSON in hubot script and format output nicely
 * more error checking.
 * restrict some operations to only be allowed to be performed on a slave
 * replication load average endpoint
