@@ -155,6 +155,7 @@ OR REPLACE ALGORITHM =  ... ition_description` ) , ? ,
 
 # TODO
 
+* parse JSON in hubot script and format output nicely
 * more error checking.
 * restrict some operations to only be allowed to be performed on a slave
 * replication load average endpoint
