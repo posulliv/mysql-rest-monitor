@@ -46,27 +46,6 @@ get = (path, params, cb) ->
     cb e, 500, "Client Error"
   req.end()
 
-put = (path, params, cb) ->
-  post path, params, cb, 'PUT'
-
-post = (path, params, cb, method='POST') ->
-  bodyParams     = JSON.stringify params
-
-  options        = defaultOptions()
-  options.method = method
-  options.headers['Content-Length'] = bodyParams.length
-
-  req = HTTP.request options, (res) ->
-    body = ""
-    res.setEncoding("utf8")
-    res.on "data", (chunk) ->
-      body += chunk
-    res.on "end", () ->
-      cb null, res.statusCode, body
-  req.on "error", (e) ->
-    console.log(e)
-    cb e, 500, "Client Error"
-  req.end(bodyParams)
 
 module.exports = (robot) ->
 
@@ -109,7 +88,7 @@ module.exports = (robot) ->
   robot.respond /mysql lock_user ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
     user = msg.match[2]
-    put "#{db}/#{user}/lock", {}, (err, statusCode, body) ->
+    get "#{db}/#{user}/lock", {}, (err, statusCode, body) ->
       if statusCode == 200
         msg.send body
       else
@@ -118,7 +97,7 @@ module.exports = (robot) ->
   robot.respond /mysql unlock_user ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
     user = msg.match[2]
-    put "#{db}/#{user}/unlock", {}, (err, statusCode, body) ->
+    get "#{db}/#{user}/unlock", {}, (err, statusCode, body) ->
       if statusCode == 200
         msg.send body
       else
@@ -151,7 +130,7 @@ module.exports = (robot) ->
   robot.respond /mysql kill_idle_trx ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
     idle_time = msg.match[2]
-    put "#{db}/kill_idle_trx/#{idle_time}", {}, (err, statusCode, body) ->
+    get "#{db}/kill_idle_trx/#{idle_time}", {}, (err, statusCode, body) ->
       if statusCode == 200
         msg.send body
       else
@@ -160,7 +139,7 @@ module.exports = (robot) ->
   robot.respond /mysql kill_blocking_trx ([-_\.0-9a-zA-Z]+) ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     db = msg.match[1]
     blocking_time = msg.match[2]
-    put "#{db}/kill_blocking_trx/#{blocking_time}", {}, (err, statusCode, body) ->
+    get "#{db}/kill_blocking_trx/#{blocking_time}", {}, (err, statusCode, body) ->
       if statusCode == 200
         msg.send body
       else
