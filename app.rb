@@ -54,12 +54,12 @@ class App < Sinatra::Base
     exec_query(Queries::SCHEMA_SIZE, params[:db], params[:schema_name]).to_json
   end
 
-  put "/:db/:username/lock" do
+  get "/:db/:username/lock" do
     exec_query(Queries::LOCK_USER, params[:db], params[:username])
     { "username" => params[:username], "status" => "locked" }.to_json
   end
 
-  put "/:db/:username/unlock" do
+  get "/:db/:username/unlock" do
     exec_query(Queries::UNLOCK_USER, params[:db], params[:username])
     { "username" => params[:username], "status" => "unlocked" }.to_json
   end
@@ -76,13 +76,13 @@ class App < Sinatra::Base
     exec_query(Queries::BLOCKED_TRX, params[:db]).to_json
   end
 
-  put "/:db/kill_idle_trx/:idle_time" do
+  get "/:db/kill_idle_trx/:idle_time" do
     exec_query(Queries::KILL_IDLE_TRX, params[:db], params[:idle_time])
     { "status" => "ok" }.to_json
   end
 
-  put "/:db/kill_blocking_trx/:idle_time" do
-    exec_query(Queries::KILL_BLOCKING_TRX, params[:db], params[:idle_time])
+  get "/:db/kill_blocking_trx/:blocking_time" do
+    exec_query(Queries::KILL_BLOCKING_TRX, params[:db], params[:blocking_time])
     { "status" => "ok" }.to_json
   end
 
