@@ -1,0 +1,162 @@
+HOST: http://www.google.com/
+
+--- mysql ---
+
+Get list of poorly performing queries, ordered by total execution time.
+GET /:db/bad_queries
+< 200
+< Content-Type: application/json
+[
+  {
+    "query": "select * from t1",
+    "full_scan": true,
+    "execution_count": 9,
+    "total_exec_time": "110 s",
+    "max_exec_time": "32 s",
+    "avg_exec_time": "12 s"
+  },
+  {
+    "query": "select t1.c2 from t1 join t2 on t1.c1 = t2.c1 order by t2.c3",
+    "full_scan": false,
+    "execution_count": 3,
+    "total_exec_time": "49 s",
+    "max_exec_time": "2 s",
+    "avg_exec_time": "254 ms"
+  }
+]
+
+Get list of queries that have created temporary tables during execution.
+GET /:db/queries_tmp_tables
+< 200
+< Content-Type: application/json
+[
+  {
+    "query": "select t1.* from t1 order by t1.c1",
+    "execution_count": 3,
+    "tmp_tables_in_memory": 2,
+    "tmp_tables_on_disk": 1
+  }
+]
+
+Get table statistics.
+GET /:db/table_stats/:schema_name/:table_name
+< 200
+< Content-Type: application/json
+{
+  "rows_fetched": 10,
+  "fetch_latency": "2 ms",
+  "rows_inserted": 2,
+  "insert_latency": "104 ms",
+  "rows_updated": 14,
+  "update_latency": "204 ms",
+  "rows_deleted": 0,
+  "delete _latency": "0 s",
+  "innodb_buffer_pages": 12
+}
+
+Get index statistics.
+GET /:db/index_stats/:schema_name/:table_name
+< 200
+< Content-Type: application/json
+[
+  {
+    "index_name": "PRIMARY",
+    "rows_selected": 23,
+    "rows_inserted": 12,
+    "rows_updated": 19,
+    "rows_deleted": 4
+  }
+]
+
+Get information on size of table and index data in a schema.
+GET /:db/schema_size/:schema_name
+< 200
+< Content-Type: application/json
+{
+  "table_count": 4,
+  "view_count": 0,
+  "distinct_engines": 1,
+  "data_size_mb": 128,
+  "index_size_mb": 4,
+  "total_size_mb": 132,
+  "largest_table": "t1",
+  "largest_table_size_mb": 68
+}
+
+Lock a user account.
+PUT /:db/:username/lock
+< 200
+< Content-Type: application/json
+{
+  "username": "posulliv",
+  "status": "locked"
+}
+
+Unlock a user account.
+PUT /:db/:username/unlock
+< 200
+< Content-Type: application/json
+{
+  "username": "posulliv",
+  "status": "unlocked"
+}
+
+Get a summary of current transactions.
+GET /:db/trx_summary
+< 200
+< Content-Type: application/json
+{
+  "total": 9,
+  "running": 7,
+  "locked": 2,
+  "distinct_locks": 2
+}
+
+Get a list of active transactions.
+GET /:db/active_trx
+< 200
+< Content-Type: application/json
+[
+  {
+    "id": "9AA6213B4",
+    "state": "RUNNING",
+    "started": "2013-03-02 15:46:36",
+    "query": "select * from t1",
+    "run_time": "2 s",
+    "wait_time": "0 s",
+    "idle_time": "0 s"
+  }
+]
+
+Get a list of blocked transactions.
+GET /:db/blocked_trx
+< 200
+< Content-Type: application/json
+[
+  {
+    "id": "9AD2D1811",
+    "trx_started": "2013-03-02 10:40:05",
+    "wait_started": "2012-03-02 10:40:12",
+    "wait_time": "3 s",
+    "query": "",
+    "blocking_id": "9AD2D0E1A",
+    "blocking_trx_started": "2013-03-02 10:40:03",
+    "blocking_query": ""
+  }
+]
+
+Kill transactions idle for more than the specified time in seconds.
+PUT /:db/kill_idle_trx/:idle_time
+< 200
+< Content-Type: application/json
+{
+  "status": "ok"
+}
+
+Kill transactions blocking other transactions for more than the specified time in seconds.
+PUT /:db/kill_blocking_trx/:wait_time
+< 200
+< Content-Type: application/json
+{
+  "status": "ok"
+}
